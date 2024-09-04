@@ -1,18 +1,26 @@
----
-page_type: sample
-languages:
-- nodejs
-- javascript
-products:
-- azure
-- azure-app-service
-description: "This sample demonstrates a tiny Hello World Node.js app for Azure App Service."
----
-
 # Node.js Hello World
 
-This sample demonstrates a tiny Hello World node.js app for [App Service Web App](https://docs.microsoft.com/azure/app-service-web).
+Deploy this code to Azure App Service with the following command:
 
-## Contributing
+```bash
+APPNAME=nodejs-hello-world-$(date +%s)
+RESOURCEGROUP=nodejs-hello-world
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+# create the app service
+az group create --name $RESOURCEGROUP --location italynorth
+az appservice plan create --name $APPNAME --resource-group $RESOURCEGROUP --sku FREE
+az webapp create --name $APPNAME --resource-group $RESOURCEGROUP --plan $APPNAME --runtime "NODE|16-lts"
+
+# deploy the code via zip-deploy
+npm install
+rm -f $APPNAME.zip ; zip -r $APPNAME.zip .
+az webapp deployment source config-zip -g $RESOURCEGROUP -n $APPNAME --src $APPNAME.zip && rm $APPNAME.zip
+
+# verify the deployment
+curl https://$APPNAME.azurewebsites.net # hello world from index.js
+curl https://$APPNAME.azurewebsites.net/public  # static file
+curl https://$APPNAME.azurewebsites.net/api/accounts/test   # api response from index.js
+
+# destroy the app service
+az group delete --name $RESOURCEGROUP --yes --no-wait
+```
