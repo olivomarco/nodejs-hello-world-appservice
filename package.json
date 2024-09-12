@@ -1,24 +1,36 @@
 {
     "name": "app-service-hello-world",
     "description": "Simple Hello World Node.js sample for Azure App Service",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "private": true,
     "license": "MIT",
-    "author": "Microsoft",
     "scripts": {
-        "start": "node index.js",
+        "start": "node build/server.js",
+        "start:dev": "concurrently \"webpack serve --mode development\" \"nodemon src/server/server.js\"",
         "lint": "eslint",
-        "format": "prettier --single-quote --write *.js"
+        "format": "prettier --single-quote --write *.js",
+        "build": "webpack --mode production && npm run copy-server",
+        "copy-server": "cp src/server/server.js build/server.js",
+        "zip": "npm run build && zip -r app-service-hello-world.zip build/* node_modules web.config package.json"
     },
     "devDependencies": {
+        "copy-webpack-plugin": "^12.0.2",
         "eslint": "^7.5.0",
-        "prettier": "^2.0.5"
+        "html-webpack-plugin": "^5.6.0",
+        "json-loader": "^0.5.7",
+        "prettier": "^2.0.5",
+        "webpack-cli": "^5.1.4",
+        "webpack-dev-server": "^5.1.0"
     },
     "dependencies": {
+        "babel-loader": "^9.1.3",
         "body-parser": "^1.19.0",
+        "concurrently": "^9.0.1",
         "cors": "^2.8.5",
-        "express": "^4.17.1",
-        "unpipe": "^1.0.0"
+        "express": "^4.21.0",
+        "nodemon": "^3.1.4",
+        "unpipe": "^1.0.0",
+        "webpack": "^5.94.0"
     },
     "engines": {
         "node": ">=10"

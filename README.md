@@ -8,8 +8,8 @@ RESOURCEGROUP=nodejs-hello-world
 
 # create the app service
 az group create --name $RESOURCEGROUP --location italynorth
-az appservice plan create --name $APPNAME --resource-group $RESOURCEGROUP --sku FREE
-az webapp create --name $APPNAME --resource-group $RESOURCEGROUP --plan $APPNAME --runtime "NODE|16-lts"
+az appservice plan create --name $APPNAME --resource-group $RESOURCEGROUP --sku B1 --is-linux
+az webapp create --name $APPNAME --resource-group $RESOURCEGROUP --plan $APPNAME --runtime "NODE|18-lts"
 
 # deploy the code via zip-deploy
 npm install
