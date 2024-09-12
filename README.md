@@ -1,4 +1,4 @@
-# Node.js Hello World
+# Node.js Hello World - with npm run build and zip-deploy
 
 This simple web application exposes different types of content:
 
