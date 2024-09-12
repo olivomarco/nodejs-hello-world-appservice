@@ -17,6 +17,14 @@ npm run start:dev
 
 and then connect to `http://localhost:9000` to see the static webpages, and connect to `http://localhost:3000` to see dynamic (nodejs) backend content.
 
+To simulate that you are running in production, but still run locally, you can run:
+
+```bash
+npm run build
+npx webpack --config webpack.config.js --mode production
+NODE_ENV=production npm run start
+```
+
 ## Deploy
 
 Deploy this code to Azure App Service with the following command:
